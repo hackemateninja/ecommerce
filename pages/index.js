@@ -1,9 +1,21 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-
+import {initiateCheckout} from "../lib/payments";
 import products from '../products.json';
 
 export default function Home() {
+ const handleCheckout = async (id) => {
+     await initiateCheckout({
+         lineItems: [
+             {
+                 price: id,
+                 quantity: 1
+             }
+         ]
+     })
+    console.log(id)
+ }
+
   return (
       <div className={styles.container}>
         <Head>
@@ -30,7 +42,11 @@ export default function Home() {
                     <p>${price}</p>
                     <p>{description}</p>
                     <p>
-                        <button className={styles.button}>Buy now</button>
+                        <button
+                            onClick={()=> handleCheckout(id)}
+                            className={styles.button}>
+                            Buy now
+                        </button>
                     </p>
                   </a>
                 </li>
